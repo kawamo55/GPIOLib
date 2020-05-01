@@ -1,0 +1,83 @@
+Global gpiobasesysfs$,statusGpioOperation$
+gpiobasesysfs$="/sys/class/gpio"
+statusGpioOperation$=""
+
+rem test 
+print "Start LED Demo"
+call openGPIO(17)
+call GPIOsetout(17)
+for i=1 to 10
+print "LED On"
+call GPIOsethigh(17)
+pause(2)
+print "LED Off"
+call GPIOsetlow(17)
+pause(2)
+next i
+call closeGPIO(17)
+print "End LED Demo"
+rem end test
+
+subroutine openGPIO(n)
+    fn$=gpiobasesysfs$+"/export"
+    open(fn$)
+    writeline(string(n))
+    close
+    pause(0.2)
+end subroutine
+
+subroutine closeGPIO(n)
+    fn$=gpiobasesysfs$+"/unexport"
+    open(fn$)
+    writeline(string(n))
+    close
+end subroutine
+
+subroutine GPIOsetout(n)
+    statusGpioOperation$=""
+    fn$=gpiobasesysfs$+"/gpio"+string(n)+"/direction"
+    if exists(fn$) then
+        open(fn$)
+        writeline("out")
+        close
+    else
+        statusGpioOperation$="Not setup GPIO" 
+    end if
+end subroutine
+
+subroutine GPIOsetin(n)
+    statusGpioOperation$=""
+    fn$=gpiobasesysfs$+"/gpio"+string(n)+"/direction"
+    if exists(fn$) then
+        open(fn$)
+        writeline("in")
+        close
+    else
+        statusGpioOperation$="Not setup GPIO" 
+    end if
+end subroutine
+
+subroutine GPIOsethigh(n)
+    statusGpioOperation$=""
+    fn$=gpiobasesysfs$+"/gpio"+string(n)+"/value"
+    if exists(fn$) then
+        open(fn$)
+        writeline("1")
+        close
+    else
+        statusGpioOperation$="Not setup GPIO" 
+    end if
+end subroutine
+
+subroutine GPIOsetlow(n)
+    statusGpioOperation$=""
+    fn$=gpiobasesysfs$+"/gpio"+string(n)+"/value"
+    if exists(fn$) then
+        open(fn$)
+        writeline("0")
+        close
+    else
+        statusGpioOperation$="Not setup GPIO" 
+    end if
+end subroutine
+    
