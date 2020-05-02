@@ -1,5 +1,5 @@
 # GPIOLib for BASIC256　ラズベリーパイ用
-Programed by M.kawase 組込AI研究所(Embed AI Labo.)  <br />
+Programed by M.kawase 組込AI研究所(Embed AI Labo.)  
 BAISC256用GPIO制御サブルーチン<br />
 GPIO入力はまだ未対応です。(Ver 0.5)<br />
 GPIO入力に対応（Ver 1.0）<br />
