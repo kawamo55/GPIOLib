@@ -5,16 +5,23 @@ statusGpioOperation$=""
 rem test 
 print "Start LED Demo"
 call openGPIO(17)
+call openGPIO(27)
 call GPIOsetout(17)
+call GPIOsetin(27)
 for i=1 to 10
 print "LED On"
 call GPIOsethigh(17)
+print "GPIO27=";
+print GPIOgetvalue(27)
 pause(2)
 print "LED Off"
 call GPIOsetlow(17)
 pause(2)
+print "GPIO27=";
+print GPIOgetvalue(27)
 next i
 call closeGPIO(17)
+call closeGPIO(27)
 print "End LED Demo"
 rem end test
 
@@ -80,4 +87,25 @@ subroutine GPIOsetlow(n)
         statusGpioOperation$="Not setup GPIO" 
     end if
 end subroutine
-    
+
+function GPIOgetvalue(n)
+    statusGpioOperation$=""
+    GPIOgetvalue=-1
+    fn$=gpiobasesysfs$+"/gpio"+string(n)+"/value"
+    if exists(fn$) then
+        open(fn$)
+        r$=readline()
+        if length(r$)=0 then
+            statusGpioOperation$="Read Status null"
+        else
+            if left(r$,1)="1" then
+                GPIOgetvalue=1
+            else
+                GPIOgetvalue=0
+            end if
+        end if
+        close
+    else
+        statusGpioOperation$="Not setup GPIO" 
+    end if
+end function
