@@ -16,9 +16,9 @@ print GPIOgetvalue(27)
 pause(2)
 print "LED Off"
 call GPIOsetlow(17)
-pause(2)
 print "GPIO27=";
 print GPIOgetvalue(27)
+pause(2)
 next i
 call closeGPIO(17)
 call closeGPIO(27)
