@@ -1,0 +1,96 @@
+rem ここからは変更しないで！ 
+Global gpiobasesysfs$,statusGpioOperation$
+gpiobasesysfs$="/sys/class/gpio"
+statusGpioOperation$=""
+rem ここまで
+
+rem ここからプログラムを書いてください 
+rem
+rem ここまで
+
+rem ここからは変更しないで！ 
+subroutine openGPIO(n)
+    fn$=gpiobasesysfs$+"/export"
+    open(fn$)
+    writeline(string(n))
+    close
+    pause(0.2)
+end subroutine
+
+subroutine closeGPIO(n)
+    fn$=gpiobasesysfs$+"/unexport"
+    open(fn$)
+    writeline(string(n))
+    close
+end subroutine
+
+subroutine GPIOsetout(n)
+    statusGpioOperation$=""
+    fn$=gpiobasesysfs$+"/gpio"+string(n)+"/direction"
+    if exists(fn$) then
+        open(fn$)
+        writeline("out")
+        close
+    else
+        statusGpioOperation$="Not setup GPIO" 
+    end if
+end subroutine
+
+subroutine GPIOsetin(n)
+    statusGpioOperation$=""
+    fn$=gpiobasesysfs$+"/gpio"+string(n)+"/direction"
+    if exists(fn$) then
+        open(fn$)
+        writeline("in")
+        close
+    else
+        statusGpioOperation$="Not setup GPIO" 
+    end if
+end subroutine
+
+subroutine GPIOsethigh(n)
+    statusGpioOperation$=""
+    fn$=gpiobasesysfs$+"/gpio"+string(n)+"/value"
+    if exists(fn$) then
+        open(fn$)
+        writeline("1")
+        close
+    else
+        statusGpioOperation$="Not setup GPIO" 
+    end if
+end subroutine
+
+subroutine GPIOsetlow(n)
+    statusGpioOperation$=""
+    fn$=gpiobasesysfs$+"/gpio"+string(n)+"/value"
+    if exists(fn$) then
+        open(fn$)
+        writeline("0")
+        close
+    else
+        statusGpioOperation$="Not setup GPIO" 
+    end if
+end subroutine
+
+function GPIOgetvalue(n)
+    statusGpioOperation$=""
+    GPIOgetvalue=-1
+    fn$=gpiobasesysfs$+"/gpio"+string(n)+"/value"
+    if exists(fn$) then
+        open(fn$)
+        r$=readline()
+        if length(r$)=0 then
+            statusGpioOperation$="Read Status null"
+        else
+            if left(r$,1)="1" then
+                GPIOgetvalue=1
+            else
+                GPIOgetvalue=0
+            end if
+        end if
+        close
+    else
+        statusGpioOperation$="Not setup GPIO" 
+    end if
+end function
+rem ここまで
