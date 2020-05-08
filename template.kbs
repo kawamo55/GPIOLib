@@ -4,6 +4,14 @@ gpiobasesysfs$="/sys/class/gpio"
 statusGpioOperation$=""
 rem ここまで
 
+rem Subroutine
+rem openGPIO(PinNo),closeGPIO(PinNo)
+rem GPIOsetout(PinNo),GPIOsetin(PinNo)
+rem GPIOsethigh(PinNo),GPIOsetlow(PinNo)
+rem
+rem Function
+rem GPIOgetvalue(PinNo)
+rem 
 rem ここからプログラムを書いてください 
 rem
 rem ここまで
